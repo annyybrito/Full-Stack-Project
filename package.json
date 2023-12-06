@@ -1,0 +1,17 @@
+{
+  "name": "qpi-anny-front",
+  "version": "1.0.0",
+  "description": "Guardar as informações dos nossos alunos para futuras utilizações.",
+  "main": "index.js",
+  "scripts": {
+    "server": "npx npm-run-server",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://git.animaeducacao.com.br/inspirali/ingressar/qpi/annybrito/qpi-anny-front.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}

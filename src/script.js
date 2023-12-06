@@ -26,10 +26,17 @@ document.addEventListener('DOMContentLoaded', function () {
     event.preventDefault();
     const formData = {
       nome: document.getElementById('m-nome').value,
-      nascimento: document.getElementById('m-nascimento').value,
+      nascimento: formatDate(document.getElementById('m-nascimento').value),
       nomedamae: document.getElementById('m-nomedamae').value,
       periodoDeIngresso: document.getElementById('periodoDeIngresso').value,
     };
+    
+    
+function formatDate(dateString) {
+  const dateObject = new Date(dateString);
+  return dateObject.toISOString().split('T')[0];
+}
+
 
     if (formData.nome && formData.nascimento && formData.nomedamae && formData.periodoDeIngresso) {
       // Criação de uma nova linha na tabela
