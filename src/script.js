@@ -26,24 +26,18 @@ document.addEventListener('DOMContentLoaded', function () {
     event.preventDefault();
     const formData = {
       nome: document.getElementById('m-nome').value,
-      nascimento: formatDate(document.getElementById('m-nascimento').value),
+      dataDeNascimento: document.getElementById('m-dataDeNascimento').value,
       nomedamae: document.getElementById('m-nomedamae').value,
       periodoDeIngresso: document.getElementById('periodoDeIngresso').value,
     };
-    
-    
-function formatDate(dateString) {
-  const dateObject = new Date(dateString);
-  return dateObject.toISOString().split('T')[0];
-}
 
 
-    if (formData.nome && formData.nascimento && formData.nomedamae && formData.periodoDeIngresso) {
+    if (formData.nome && formData.dataDeNascimento && formData.nomedamae && formData.periodoDeIngresso) {
       // Criação de uma nova linha na tabela
       const newRow = document.createElement('tr');
       newRow.innerHTML = `
         <td>${formData.nome}</td>
-        <td>${formData.nascimento}</td>
+        <td>${formData.dataDeNascimento}</td>
         <td>${formData.nomedamae}</td>
         <td>${formData.periodoDeIngresso}</td>
         <td class="acao"><button onclick="editRow(this)"><i class='bx bxs-edit'></i></button></td>
@@ -62,29 +56,29 @@ function formatDate(dateString) {
   }
 
   function sendDataToBackend(data) {
-    fetch('https://localhost:7275/api/estudantes', {
+     fetch('https://localhost:7275/api/estudantes', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify(data),
+      body:JSON.stringify(data),
     })
-    .then(response => {
-      if (!response.ok) {
-        throw new Error('Erro ao enviar os dados para o back-end.');
-      }
-      console.log('Dados enviados com sucesso!');
-    })
-    .catch(error => {
-      console.error(error.message);
-    });
+      .then(response => {
+        if (!response.ok) {
+          throw new Error('Erro ao enviar os dados para o back-end.');
+        }
+        console.log('Dados enviados com sucesso!');
+      })
+      .catch(error => {
+        console.error(error.message);
+      }); 
   }
 
   window.editRow = function (button) {
     const row = button.closest('tr');
     const cells = row.getElementsByTagName('td');
     document.getElementById('m-nome').value = cells[0].innerText;
-    document.getElementById('m-nascimento').value = cells[1].innerText;
+    document.getElementById('m-dataDeNascimento').value = cells[1].innerText;
     document.getElementById('m-nomedamae').value = cells[2].innerText;
     document.getElementById('periodoDeIngresso').value = cells[3].innerText;
 
