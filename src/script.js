@@ -28,7 +28,6 @@ document.addEventListener('DOMContentLoaded', function () {
   function saveData(event) {
     event.preventDefault();
     const formData = {
-      id: document.getElementById('estudanteId').value,
       nome: document.getElementById('m-nome').value,
       dataDeNascimento: document.getElementById('m-dataDeNascimento').value,
       nomedamae: document.getElementById('m-nomedamae').value,
@@ -37,6 +36,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     if (formData.nome && formData.dataDeNascimento && formData.nomedamae && formData.periodoDeIngresso) {
       if (isEditing) {
+        formData.id = document.getElementById('estudanteId').value;
         updateDataOnBackend(formData);
       } else {
         sendDataToBackend(formData);
@@ -63,8 +63,7 @@ document.addEventListener('DOMContentLoaded', function () {
           throw new Error('Erro ao enviar os dados para o back-end.');
         }
         console.log('Dados enviados com sucesso!');
-        appendRow(data.id);
-      })
+getDataFromBackend      })
       .catch(error => {
         console.error(error.message);
       });
