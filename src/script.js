@@ -122,12 +122,17 @@ getDataFromBackend      })
     openModal();
   };
 
-  window.deleteRow = function (button, id) {
-    const row = button.closest('tr');
-    const cells = row.getElementsByTagName('td');
-    const idToDelete = cells[4].innerText;
-    console.log(id);
+ // ...
 
+window.deleteRow = function (button, id) {
+  const row = button.closest('tr');
+  const cells = row.getElementsByTagName('td');
+  const idToDelete = cells[4].innerText;
+
+  // Exibir popup de confirmação
+  const confirmDelete = confirm('Tem certeza que deseja excluir este cadastro?');
+
+  if (confirmDelete) {
     fetch('https://localhost:7275/api/estudantes')
       .then(response => {
         if (!response.ok) {
@@ -141,9 +146,14 @@ getDataFromBackend      })
       .catch(error => {
         console.error('Erro ao obter a lista de estudantes:', error.message);
       });
-  };
+  }
+};
+
 
   window.deleteEstudante = function (estudantesID) {
+    const confirmDelete = confirm('Tem certeza que deseja excluir este cadastro?');
+     
+    if (confirmDelete)
     fetch(`https://localhost:7275/api/estudantes/${estudantesID}`, {
       method: 'DELETE',
     })
