@@ -1,4 +1,3 @@
-
 document.addEventListener('DOMContentLoaded', function () {
   const openModalButton = document.getElementById('new');
   const modalContainer = document.querySelector('.modal-container');
