@@ -1,6 +1,6 @@
 <template>
   <div class="row justify-content-center">
-    <h3>Seus Cadastros</h3>
+    <h3>Alunos Cadastrados</h3>
     <table class="table">
       <thead>
         <tr>
