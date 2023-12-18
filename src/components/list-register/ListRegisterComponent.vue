@@ -12,16 +12,16 @@
         </tr>
       </thead>
       <tbody>
-        <tr v-for="employee in employees" :key="employee.id">
-          <td>{{ employee.nome }}</td>
-          <td>{{ employee.dataDeNascimento.split('T')[0] }}</td>
-          <td>{{ employee.nomeDaMae }}</td>
-          <td>{{ employee.periodoDeIngresso }}</td>
+        <tr v-for="register in registers" :key="register.id">
+          <td>{{ register.nome }}</td>
+          <td>{{ register.dataDeNascimento.split('T')[0] }}</td>
+          <td>{{ register.nomeDaMae }}</td>
+          <td>{{ register.periodoDeIngresso }}</td>
           <td>
-    <router-link :to="{ name: 'edit-employee', params: { id: employee.id } }" class="btn btn-light" style="margin-right: 10px;">
+    <router-link :to="{ name: 'edit-register', params: { id: register.id } }" class="btn btn-light" style="margin-right: 10px;">
       <i class='bx bxs-edit'></i> Editar
     </router-link>
-    <button @click="deleteEmployee(employee.id)" class="btn btn-primary" style="margin-right: 10px;">
+    <button @click="deleteRegister(register.id)" class="btn btn-primary" style="margin-right: 10px;">
       <i class='bx bxs-trash'></i> Excluir
     </button>
   </td>
@@ -37,23 +37,23 @@
       <div class="modal">
         <button class="btnFecharModal" @click="closeEditModal">Fechar</button>
         <label for="m-nome">Nome:</label>
-        <input v-model="editedEmployee.nome" id="m-nome" type="text" required />
+        <input v-model="editedRegister.nome" id="m-nome" type="text" required />
 
         <label for="m-dataDeNascimento">Data de Nascimento:</label>
-        <input v-model="editedEmployee.dataDeNascimento" id="m-dataDeNascimento" type="date" required />
+        <input v-model="editedRegister.dataDeNascimento" id="m-dataDeNascimento" type="date" required />
 
         <label for="m-nomedamae">Nome da Mãe:</label>
-        <input v-model="editedEmployee.nomeDaMae" id="m-nomedamae" type="text" required />
+        <input v-model="editedRegister.nomeDaMae" id="m-nomedamae" type="text" required />
 
         <label for="periodoDeIngresso">Período Ingresso:</label>
-        <select v-model="editedEmployee.periodoDeIngresso" id="periodoDeIngresso" name="periodoDeIngresso">
+        <select v-model="editedRegister.periodoDeIngresso" id="periodoDeIngresso" name="periodoDeIngresso">
           <option value="2023.1">2023.1</option>
           <option value="2023.2">2023.2</option>
           <option value="2024.1">2024.1</option>
           <option value="2024.2">2024.2</option>
         </select>
 
-        <button @click="updateEmployee" id="btnSalvar">Salvar</button>
+        <button @click="updateRegister" id="btnSalvar">Salvar</button>
       </div>
     </div>
   </div>
@@ -63,9 +63,9 @@
 export default {
   data() {
     return {
-      employees: [],
+      registers: [],
       showEditModal: false,
-      editedEmployee: {
+      editedRegister: {
         id: null,
         nome: "",
         dataDeNascimento: "",
@@ -84,19 +84,19 @@ export default {
           return response.json();
         })
         .then(data => {
-          this.employees = data;
+          this.registers = data;
         })
         .catch(error => {
           console.error(error.message);
         });
     },
-    openEditModal(employee) {
-      this.editedEmployee = { ...employee };
+    openEditModal(register) {
+      this.editedRegister= { ...register };
       this.showEditModal = true;
     },
     closeEditModal() {
       this.showEditModal = false;
-      this.editedEmployee = {
+      this.editedRegister = {
         id: null,
         nome: "",
         dataDeNascimento: "",
@@ -104,15 +104,15 @@ export default {
         periodoDeIngresso: "2023.1",
       };
     },
-    updateEmployee() {
+    updateRegister() {
       const formData = {
-        nome: this.editedEmployee.nome,
-        dataDeNascimento: this.editedEmployee.dataDeNascimento,
-        nomeDaMae: this.editedEmployee.nomeDaMae,
-        periodoDeIngresso: this.editedEmployee.periodoDeIngresso,
+        nome: this.editedRegister.nome,
+        dataDeNascimento: this.editedRegister.dataDeNascimento,
+        nomeDaMae: this.editedRegister.nomeDaMae,
+        periodoDeIngresso: this.editedRegister.periodoDeIngresso,
       };
 
-      fetch(`https://localhost:7275/api/estudantes/${this.editedEmployee.id}`, {
+      fetch(`https://localhost:7275/api/estudantes/${this.editedRegister.id}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -131,7 +131,7 @@ export default {
           console.error(error.message);
         });
     },
-    deleteEmployee(id) {
+    deleteRegister(id) {
       const confirmDelete = confirm('Tem certeza que deseja excluir este cadastro?');
 
       if (confirmDelete) {

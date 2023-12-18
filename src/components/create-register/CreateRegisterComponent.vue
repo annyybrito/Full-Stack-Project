@@ -5,7 +5,7 @@
         <h3>Cadastro de Alunos</h3>
       </div>
       <div class="card-body">
-        <form @submit.prevent="saveEmployee">
+        <form @submit.prevent="saveRegister">
           <div class="form-group mb-3">
             <label for="m-nome"><strong>Nome:</strong></label>
             <div class="col-sm-5">
@@ -59,7 +59,7 @@ export default {
     };
   },
   methods: {
-    saveEmployee() {
+    saveRegister() {
       const formData = {
         nome: this.nome,
         dataDeNascimento: this.dataDeNascimento,

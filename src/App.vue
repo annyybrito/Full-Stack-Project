@@ -14,7 +14,7 @@
         </ul>
         <ul class="navbar-nav">
           <li class="nav-item">
-            <router-link class="nav-link" to="/list-employees" style="color:white; margin-left: 15px;">Alunos Cadastrados</router-link>
+            <router-link class="nav-link" to="/list-registers" style="color:white; margin-left: 15px;">Alunos Cadastrados</router-link>
           </li>
         </ul>
       </div>

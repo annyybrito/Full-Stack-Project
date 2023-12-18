@@ -1,24 +1,24 @@
 import { createRouter, createWebHistory } from 'vue-router';
-import CreateEmployeeComponent from '../components/create-employee/CreateEmployeeComponent.vue';
-import ListEmployeeComponent from '../components/list-employee/ListEmployeeComponent.vue';
-import EditEmployeeComponent from '../components/edit-employee/EditEmployeeComponent.vue';
+import CreateRegisterComponent from '../components/create-register/CreateRegisterComponent.vue';
+import ListRegisterComponent from '../components/list-register/ListRegisterComponent.vue';
+import EditRegisterComponent from '../components/edit-register/EditRegisterComponent.vue';
 
 
 const routes = [
   {
     path: '/',
-    name: 'create-employee',
-    component: CreateEmployeeComponent,
+    name: 'create-register',
+    component: CreateRegisterComponent,
   },
   {
-    path: '/list-employees',
-    name: 'list-employees',
-    component: ListEmployeeComponent,
+    path: '/list-registers',
+    name: 'list-registers',
+    component: ListRegisterComponent,
   },
   {
     path: '/edit/:id',
-    name: 'edit-employee',
-    component: EditEmployeeComponent,
+    name: 'edit-register',
+    component: EditRegisterComponent,
   },
 
 ];
