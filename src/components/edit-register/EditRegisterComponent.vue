@@ -1,12 +1,7 @@
 <template>
   <div>
     <h3>Editar Aluno</h3>
-    <form @submit.prevent="updateRegister">
-      <!-- Se a variável de estado 'confirmacao' for true, exibe a mensagem de confirmação -->
-      <div v-if="confirmacao" class="alert alert-success" role="alert">
-        Dados editados com sucesso!
-      </div>
-
+    <form @submit.prevent="updateRegister">      
       <label for="edit-nome">Nome:</label>
       <input v-model="editedRegister.nome" id="edit-nome" type="text" required />
 
@@ -43,7 +38,7 @@ export default {
         nomeDaMae: "",
         periodoDeIngresso: "2023.1",
       },
-      confirmacao: false, // Variável de estado para controlar a exibição da mensagem de confirmação
+      confirmacao: false, // essa variavel é para controlar a exibição da mensagem de confirmação
     };
   },
   methods: {

@@ -18,9 +18,9 @@
           <td>{{ register.nomeDaMae }}</td>
           <td>{{ register.periodoDeIngresso }}</td>
           <td>
-    <router-link :to="{ name: 'edit-register', params: { id: register.id } }" class="btn btn-light" style="margin-right: 10px;">
-      <i class='bx bxs-edit'></i> Editar
-    </router-link>
+    <router-link :to="{ name: 'edit-register', params: { id: register.id } }" class="btn btn-light" style="margin-right: 10px;"> 
+      <i class='bx bxs-edit'></i> Editar 
+    </router-link> <!---aqui utilizei a propriedade to pra especificar qual rota o link deve apontar-->
     <button @click="deleteRegister(register.id)" class="btn btn-primary" style="margin-right: 10px;">
       <i class='bx bxs-trash'></i> Excluir
     </button>
@@ -142,7 +142,7 @@ export default {
             if (!response.ok) {
               throw new Error('Erro ao excluir o estudante do back-end.');
             }
-            this.loadData(); // Atualizar a lista de estudantes após a exclusão
+            this.loadData(); // Atualiza a lista de estudantes após a exclusão
           })
           .catch(error => {
             console.error(error.message);

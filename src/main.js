@@ -1,8 +1,9 @@
-import VueSweetaler2 from 'vue-sweetalert2';
 import { createApp } from 'vue';
 import App from './App.vue';
 import router from './router';
+import axios from 'axios';
+
 
 
 import 'bootstrap/dist/css/bootstrap.min.css';
-createApp(App).use(router, VueSweetaler2).mount('#app');
+createApp(App).use(router, axios).mount('#app');
