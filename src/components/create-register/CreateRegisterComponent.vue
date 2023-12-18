@@ -59,10 +59,14 @@ export default {
     };
   },
   methods: {
+    formatDate(date) {
+      const formattedDate = new Date(date).toISOString().split('T')[0];
+      return formattedDate;
+    },
     saveRegister() {
       const formData = {
         nome: this.nome,
-        dataDeNascimento: this.dataDeNascimento,
+        dataDeNascimento: this.formatDate(this.dataDeNascimento),
         nomeDaMae: this.nomeDaMae,
         periodoDeIngresso: this.periodoDeIngresso,
       };
@@ -76,10 +80,9 @@ export default {
       })
         .then(response => {
           if (!response.ok) {
-            throw new Error('Erro ao enviar os dados para o back-end.');
+            throw new Error(`Erro ao enviar os dados para o back-end. Status: ${response.status}`);
           }
           console.log('Dados enviados com sucesso!');
-          // Atualizar a lista de estudantes, se necessário
           this.$emit('update-list');
           this.clearForm();
         })

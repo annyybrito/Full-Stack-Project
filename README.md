@@ -1,4 +1,4 @@
-# projeto-crud-qpi
+# Projeto Crud Inspirali
 
 ## Project setup
 ```
