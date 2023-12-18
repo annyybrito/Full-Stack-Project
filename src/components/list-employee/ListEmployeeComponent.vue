@@ -18,48 +18,42 @@
           <td>{{ employee.nomeDaMae }}</td>
           <td>{{ employee.periodoDeIngresso }}</td>
           <td>
-            <button @click="openEditModal(employee)"><i class='bx bxs-edit'></i> Editar</button>
-            <button @click="deleteEmployee(employee.id)"><i class='bx bxs-trash'></i> Excluir</button>
-          </td>
+    <router-link :to="{ name: 'edit-employee', params: { id: employee.id } }" class="btn btn-light" style="margin-right: 10px;">
+      <i class='bx bxs-edit'></i> Editar
+    </router-link>
+    <button @click="deleteEmployee(employee.id)" class="btn btn-primary" style="margin-right: 10px;">
+      <i class='bx bxs-trash'></i> Excluir
+    </button>
+  </td>
+
+
+
         </tr>
       </tbody>
     </table>
 
     <!-- Modal de Edição -->
-    <div v-if="showEditModal" class="modal fade show" tabindex="-1" role="dialog">
-      <div class="modal-dialog" role="document">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title">Editar Aluno</h5>
-            <button type="button" class="btn-close" @click="closeEditModal" aria-label="Close"></button>
-          </div>
-          <div class="modal-body">
-            <form @submit.prevent="updateEmployee">
-              <div class="mb-3">
-                <label for="edit-nome" class="form-label"><strong>Nome:</strong></label>
-                <input v-model="editedEmployee.nome" type="text" class="form-control" id="edit-nome" required />
-              </div>
-              <div class="mb-3">
-                <label for="edit-dataDeNascimento" class="form-label"><strong>Data de Nascimento:</strong></label>
-                <input v-model="editedEmployee.dataDeNascimento" type="date" class="form-control" id="edit-dataDeNascimento" required />
-              </div>
-              <div class="mb-3">
-                <label for="edit-nomeDaMae" class="form-label"><strong>Nome da Mãe:</strong></label>
-                <input v-model="editedEmployee.nomeDaMae" type="text" class="form-control" id="edit-nomeDaMae" required />
-              </div>
-              <div class="mb-3">
-                <label for="edit-periodoDeIngresso" class="form-label"><strong>Período de Ingresso:</strong></label>
-                <select v-model="editedEmployee.periodoDeIngresso" class="form-control" id="edit-periodoDeIngresso" required>
-                  <option value="2023.1">2023.1</option>
-                  <option value="2023.2">2023.2</option>
-                  <option value="2024.1">2024.1</option>
-                  <option value="2024.2">2024.2</option>
-                </select>
-              </div>
-              <button type="submit" class="btn btn-primary">Salvar</button>
-            </form>
-          </div>
-        </div>
+    <div v-if="showEditModal" class="modal-container">
+      <div class="modal">
+        <button class="btnFecharModal" @click="closeEditModal">Fechar</button>
+        <label for="m-nome">Nome:</label>
+        <input v-model="editedEmployee.nome" id="m-nome" type="text" required />
+
+        <label for="m-dataDeNascimento">Data de Nascimento:</label>
+        <input v-model="editedEmployee.dataDeNascimento" id="m-dataDeNascimento" type="date" required />
+
+        <label for="m-nomedamae">Nome da Mãe:</label>
+        <input v-model="editedEmployee.nomeDaMae" id="m-nomedamae" type="text" required />
+
+        <label for="periodoDeIngresso">Período Ingresso:</label>
+        <select v-model="editedEmployee.periodoDeIngresso" id="periodoDeIngresso" name="periodoDeIngresso">
+          <option value="2023.1">2023.1</option>
+          <option value="2023.2">2023.2</option>
+          <option value="2024.1">2024.1</option>
+          <option value="2024.2">2024.2</option>
+        </select>
+
+        <button @click="updateEmployee" id="btnSalvar">Salvar</button>
       </div>
     </div>
   </div>
