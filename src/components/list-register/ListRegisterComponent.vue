@@ -18,14 +18,13 @@
           <td>{{ register.nomeDaMae }}</td>
           <td>{{ register.periodoDeIngresso }}</td>
           <td>
-    <router-link :to="{ name: 'edit-register', params: { id: register.id } }" class="btn btn-light" style="margin-right: 10px;"> 
+    <router-link :to="{ name: 'edit-register', params: { id: register.id } }" class="btn btn-primary" style="margin-right: 10px;">
       <i class='bx bxs-edit'></i> Editar 
     </router-link> <!---aqui utilizei a propriedade to pra especificar qual rota o link deve apontar-->
-    <button @click="deleteRegister(register.id)" class="btn btn-primary" style="margin-right: 10px;">
+    <button @click="deleteRegister(register.id)" class="btn btn-danger" style="margin-right: 10px;">
       <i class='bx bxs-trash'></i> Excluir
     </button>
   </td>
-
 
 
         </tr>
@@ -60,7 +59,7 @@
 </template>
 
 <script>
-export default {
+export default { 
   data() {
     return {
       registers: [],

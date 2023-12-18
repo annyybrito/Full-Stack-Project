@@ -20,8 +20,8 @@
       </select>
 
       <div class="button-group">
-        <button class="btn btn-primary" type="submit">Salvar</button>
-        <router-link class="btn btn-primary" :to="{ name: 'list-registers' }">Cancelar</router-link>
+        <button class="btn btn-save" type="submit">Salvar</button>
+        <router-link class="btn btn-cancel" :to="{ name: 'list-registers' }">Cancelar</router-link>
       </div>
     </form>
   </div>
@@ -38,10 +38,13 @@ export default {
         nomeDaMae: "",
         periodoDeIngresso: "2023.1",
       },
-      confirmacao: false, // essa variavel é para controlar a exibição da mensagem de confirmação
+      confirmacao: false,
     };
   },
   methods: {
+    formatDate(date) {
+      return date;
+    },
     updateRegister() {
       const formData = {
         id: this.editedRegister.id,
@@ -63,9 +66,9 @@ export default {
             throw new Error('Erro ao enviar os dados atualizados para o back-end.');
           }
           console.log('Dados atualizados com sucesso!');
-          this.confirmacao = true; // Define a variável de estado como true para exibir a mensagem de confirmação
+          this.confirmacao = true;
           setTimeout(() => {
-            this.confirmacao = false; // Após 3 segundos, esconde a mensagem de confirmação
+            this.confirmacao = false;
           }, 3000);
           this.$router.push({ name: 'list-registers' });
         })
@@ -86,6 +89,7 @@ export default {
       })
       .then(data => {
         this.editedRegister = data;
+        this.editedRegister.dataDeNascimento = this.formatDate(this.editedRegister.dataDeNascimento);
       })
       .catch(error => {
         console.error(error.message);
@@ -131,16 +135,17 @@ select {
   margin-top: 10px;
 }
 
-button[type="submit"],
-.btn-custom {
-  background-color: #ccc;
-  color: #000;
+button.btn-save {
+  background-color: blue;
+  color: #fff;
   border: none;
   margin-right: 10px;
 }
 
-router-link {
-  @apply btn btn-primary;
+/* Aplique a cor vermelha diretamente ao router-link para o botão Cancelar */
+.button-group .btn-cancel {
+  background-color: red;
+  color: #fff;
   border: none;
 }
 
