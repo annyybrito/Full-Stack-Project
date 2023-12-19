@@ -5,7 +5,7 @@
         <h3>Cadastro de Alunos</h3>
       </div>
       <div class="card-body">
-        <form @submit.prevent="saveRegister">
+        <form @submit.prevent="saveAndRedirect">
           <div class="form-group mb-3">
             <label for="m-nome"><strong>Nome:</strong></label>
             <div class="col-sm-5">
@@ -40,7 +40,9 @@
           </div>
 
           <div class="form-group">
-            <button class="btn btn-primary" type="submit"> + Adicionar</button>
+            <router-link :to="{ name: 'list-registers' }" class="btn btn-primary" style="margin-right: 10px;"> 
+              + Adicionar
+            </router-link> <!---redirecionamento do botão de adicionar da tela inicial para a tela de listagem utilizando o router-link-->
           </div>
         </form>
       </div>
@@ -63,7 +65,7 @@ export default {
       const formattedDate = new Date(date).toISOString().split('T')[0];
       return formattedDate;
     },
-    saveRegister() {
+    saveAndRedirect() {
       const formData = {
         nome: this.nome,
         dataDeNascimento: this.formatDate(this.dataDeNascimento),
@@ -85,6 +87,9 @@ export default {
           console.log('Dados enviados com sucesso!');
           this.$emit('update-list');
           this.clearForm();
+
+          // Redireciona para a rota ListRegisterComponent
+          this.$router.push({ name: 'ListRegisterComponent' });
         })
         .catch(error => {
           console.error(error.message);
