@@ -18,23 +18,22 @@
           <td>{{ register.nomeDaMae }}</td>
           <td>{{ register.periodoDeIngresso }}</td>
           <td>
-    <router-link :to="{ name: 'edit-register', params: { id: register.id } }" class="btn btn-primary" style="margin-right: 10px;">
-      <i class='bx bxs-edit'></i> Editar 
-    </router-link> <!---aqui utilizei a propriedade to pra especificar qual rota o link deve apontar-->
-    <button @click="deleteRegister(register.id)" class="btn btn-danger" style="margin-right: 10px;">
-      <i class='bx bxs-trash'></i> Excluir
-    </button>
-  </td>
-
-
+            <router-link :to="{ name: 'edit-register', params: { id: register.id } }" class="btn btn-primary"
+              style="margin-right: 10px;">
+              <i class='bx bxs-edit'></i> Editar
+            </router-link>
+            <button @click="deleteRegister(register.id)" class="btn btn-danger" style="margin-right: 10px;">
+              <i class='bx bxs-trash'></i> Excluir
+            </button>
+          </td>
         </tr>
       </tbody>
     </table>
 
-    <!-- Modal de Edição -->
     <div v-if="showEditModal" class="modal-container">
       <div class="modal">
         <button class="btnFecharModal" @click="closeEditModal">Fechar</button>
+
         <label for="m-nome">Nome:</label>
         <input v-model="editedRegister.nome" id="m-nome" type="text" required />
 
@@ -59,7 +58,7 @@
 </template>
 
 <script>
-export default { 
+export default {
   data() {
     return {
       registers: [],
@@ -90,7 +89,7 @@ export default {
         });
     },
     openEditModal(register) {
-      this.editedRegister= { ...register };
+      this.editedRegister = { ...register };
       this.showEditModal = true;
     },
     closeEditModal() {
@@ -141,7 +140,7 @@ export default {
             if (!response.ok) {
               throw new Error('Erro ao excluir o estudante do back-end.');
             }
-            this.loadData(); // Atualiza a lista de estudantes após a exclusão
+            this.loadData();
           })
           .catch(error => {
             console.error(error.message);
@@ -154,5 +153,3 @@ export default {
   },
 };
 </script>
-
-

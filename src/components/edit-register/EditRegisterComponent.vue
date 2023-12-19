@@ -1,7 +1,7 @@
 <template>
   <div>
     <h3>Editar Aluno</h3>
-    <form @submit.prevent="updateRegister">      
+    <form @submit.prevent="updateRegister">
       <label for="edit-nome">Nome:</label>
       <input v-model="editedRegister.nome" id="edit-nome" type="text" required />
 
@@ -24,6 +24,10 @@
         <router-link class="btn btn-cancel" :to="{ name: 'list-registers' }">Cancelar</router-link>
       </div>
     </form>
+
+    <div v-if="confirmacao" class="alert-success">
+      Dados atualizados com sucesso!
+    </div>
   </div>
 </template>
 
@@ -142,14 +146,12 @@ button.btn-save {
   margin-right: 10px;
 }
 
-/* Aplique a cor vermelha diretamente ao router-link para o botão Cancelar */
 .button-group .btn-cancel {
   background-color: red;
   color: #fff;
   border: none;
 }
 
-/* Adiciona estilos para a mensagem de confirmação */
 .alert-success {
   margin-top: 10px;
   padding: 10px;

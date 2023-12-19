@@ -3,7 +3,6 @@ import CreateRegisterComponent from '../components/create-register/CreateRegiste
 import ListRegisterComponent from '../components/list-register/ListRegisterComponent.vue';
 import EditRegisterComponent from '../components/edit-register/EditRegisterComponent.vue';
 
-
 const routes = [
   {
     path: '/',
@@ -20,7 +19,6 @@ const routes = [
     name: 'edit-register',
     component: EditRegisterComponent,
   },
-
 ];
 
 const router = createRouter({

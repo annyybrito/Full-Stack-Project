@@ -1,4 +1,3 @@
-<!-- SeuComponente.vue -->
 <template>
   <div class="container">
     <div class="card">
@@ -31,7 +30,8 @@
           <div class="form-group mb-3">
             <label for="periodoDeIngresso"><strong>Período de Ingresso:</strong></label>
             <div class="col-sm-5">
-              <select v-model="periodoDeIngresso" id="periodoDeIngresso" class="form-control" name="periodoDeIngresso" required>
+              <select v-model="periodoDeIngresso" id="periodoDeIngresso" class="form-control" name="periodoDeIngresso"
+                required>
                 <option value="2023.1">2023.1</option>
                 <option value="2023.2">2023.2</option>
                 <option value="2024.1">2024.1</option>
@@ -99,8 +99,6 @@ export default {
           console.log('Dados enviados com sucesso!');
           this.$emit('update-list');
           this.clearForm();
-
-          // Redireciona para a lista de registros após o envio bem-sucedido
           this.redirectToRegisterList();
         })
         .catch(error => {
