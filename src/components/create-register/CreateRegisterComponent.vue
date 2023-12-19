@@ -1,3 +1,4 @@
+<!-- SeuComponente.vue -->
 <template>
   <div class="container">
     <div class="card">
@@ -5,7 +6,7 @@
         <h3>Cadastro de Alunos</h3>
       </div>
       <div class="card-body">
-        <form @submit.prevent="saveAndRedirect">
+        <form @submit.prevent="saveRegister">
           <div class="form-group mb-3">
             <label for="m-nome"><strong>Nome:</strong></label>
             <div class="col-sm-5">
@@ -40,9 +41,7 @@
           </div>
 
           <div class="form-group">
-            <router-link :to="{ name: 'list-registers' }" class="btn btn-primary" style="margin-right: 10px;"> 
-              + Adicionar
-            </router-link> <!---redirecionamento do botão de adicionar da tela inicial para a tela de listagem utilizando o router-link-->
+            <button class="btn btn-primary" type="submit"> + Adicionar</button>
           </div>
         </form>
       </div>
@@ -51,7 +50,20 @@
 </template>
 
 <script>
+import { useRouter } from 'vue-router';
+
 export default {
+  setup() {
+    const router = useRouter();
+
+    const redirectToRegisterList = () => {
+      router.push({ name: 'list-registers' });
+    };
+
+    return {
+      redirectToRegisterList,
+    };
+  },
   data() {
     return {
       nome: "",
@@ -65,7 +77,7 @@ export default {
       const formattedDate = new Date(date).toISOString().split('T')[0];
       return formattedDate;
     },
-    saveAndRedirect() {
+    saveRegister() {
       const formData = {
         nome: this.nome,
         dataDeNascimento: this.formatDate(this.dataDeNascimento),
@@ -88,8 +100,8 @@ export default {
           this.$emit('update-list');
           this.clearForm();
 
-          // Redireciona para a rota ListRegisterComponent
-          this.$router.push({ name: 'ListRegisterComponent' });
+          // Redireciona para a lista de registros após o envio bem-sucedido
+          this.redirectToRegisterList();
         })
         .catch(error => {
           console.error(error.message);
