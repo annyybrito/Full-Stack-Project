@@ -47,8 +47,10 @@ export default {
   },
   methods: {
     formatDate(date) {
-      return date;
-    },
+    const formattedDate = new Date(date).toISOString().split('T')[0];
+    return formattedDate;
+},
+
     updateRegister() {
       const formData = {
         id: this.editedRegister.id,
