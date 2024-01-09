@@ -80,7 +80,7 @@ export default {
             throw new Error('Erro ao obter os dados do back-end.');
           }
           return response.json();
-        })
+        }) 
         .then(data => {
           this.registers = data;
         })
