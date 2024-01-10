@@ -22,7 +22,7 @@
               style="margin-right: 10px;">
               <i class='bx bxs-edit'></i> Editar
             </router-link>
-            <button @click="deleteRegister(register.id)" class="btn btn-danger" style="margin-right: 10px;">
+            <button @click="confirmDelete(register.id)" class="btn btn-danger" style="margin-right: 10px;">
               <i class='bx bxs-trash'></i> Excluir
             </button>
           </td>
@@ -30,30 +30,24 @@
       </tbody>
     </table>
 
-    <div v-if="showEditModal" class="modal-container">
-      <div class="modal">
-        <button class="btnFecharModal" @click="closeEditModal">Fechar</button>
-
-        <label for="m-nome">Nome:</label>
-        <input v-model="editedRegister.nome" id="m-nome" type="text" required />
-
-        <label for="m-dataDeNascimento">Data de Nascimento:</label>
-        <input v-model="editedRegister.dataDeNascimento" id="m-dataDeNascimento" type="date" required />
-
-        <label for="m-nomedamae">Nome da Mãe:</label>
-        <input v-model="editedRegister.nomeDaMae" id="m-nomedamae" type="text" required />
-
-        <label for="periodoDeIngresso">Período Ingresso:</label>
-        <select v-model="editedRegister.periodoDeIngresso" id="periodoDeIngresso" name="periodoDeIngresso">
-          <option value="2023.1">2023.1</option>
-          <option value="2023.2">2023.2</option>
-          <option value="2024.1">2024.1</option>
-          <option value="2024.2">2024.2</option>
-        </select>
-
-        <button @click="updateRegister" id="btnSalvar">Salvar</button>
+    <div class="modal fade" id="confirmDeleteModal" tabindex="-1" role="dialog" aria-labelledby="confirmDeleteModalLabel"
+      aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="confirmDeleteModalLabel">Confirmar Exclusão</h5>
+          </div>
+          <div class="modal-body">
+            Tem certeza que deseja excluir este cadastro?
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal" @click="cancelDelete">Cancelar</button>
+            <button type="button" class="btn btn-danger" @click="deleteConfirmed">Excluir</button>
+          </div>
+        </div>
       </div>
     </div>
+
   </div>
 </template>
 
@@ -70,6 +64,7 @@ export default {
         nomeDaMae: "",
         periodoDeIngresso: "2023.1",
       },
+      deleteCandidateId: null,
     };
   },
   methods: {
@@ -80,7 +75,7 @@ export default {
             throw new Error('Erro ao obter os dados do back-end.');
           }
           return response.json();
-        }) 
+        })
         .then(data => {
           this.registers = data;
         })
@@ -129,23 +124,32 @@ export default {
           console.error(error.message);
         });
     },
-    deleteRegister(id) {
-      const confirmDelete = confirm('Tem certeza que deseja excluir este cadastro?');
+    confirmDelete(id) {
+      this.deleteCandidateId = id;
+      document.getElementById('confirmDeleteModal').classList.add('show');
+      document.getElementById('confirmDeleteModal').style.display = 'block';
+    },
+    cancelDelete() {
+      document.getElementById('confirmDeleteModal').classList.remove('show');
+      document.getElementById('confirmDeleteModal').style.display = 'none';
+    },
+    deleteConfirmed() {
+      const id = this.deleteCandidateId;
+      document.getElementById('confirmDeleteModal').classList.remove('show');
+      document.getElementById('confirmDeleteModal').style.display = 'none';
 
-      if (confirmDelete) {
-        fetch(`https://localhost:7275/api/estudantes/${id}`, {
-          method: 'DELETE',
+      fetch(`https://localhost:7275/api/estudantes/${id}`, {
+        method: 'DELETE',
+      })
+        .then(response => {
+          if (!response.ok) {
+            throw new Error('Erro ao excluir o estudante do back-end.');
+          }
+          this.loadData();
         })
-          .then(response => {
-            if (!response.ok) {
-              throw new Error('Erro ao excluir o estudante do back-end.');
-            }
-            this.loadData();
-          })
-          .catch(error => {
-            console.error(error.message);
-          });
-      }
+        .catch(error => {
+          console.error(error.message);
+        });
     },
   },
   mounted() {
