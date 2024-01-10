@@ -1,6 +1,13 @@
 <template>
   <div class="row justify-content-center">
     <h3>Alunos Cadastrados</h3>
+
+    <!-- Barra de Pesquisa -->
+    <div class="form-group">
+      <label for="searchName">Filtrar por Nome:</label>
+      <input type="text" v-model="searchName" @input="filterByName" class="form-control" id="searchName" />
+    </div>
+
     <table class="table">
       <thead>
         <tr>
@@ -41,7 +48,7 @@
             Tem certeza que deseja excluir este cadastro?
           </div>
           <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-dismiss="modal" @click="cancelDelete">Cancelar</button>
+            <button type="button" class="btn btn-secondary" @click="cancelDelete">Cancelar</button>
             <button type="button" class="btn btn-danger" @click="deleteConfirmed">Excluir</button>
           </div>
         </div>
@@ -65,6 +72,7 @@ export default {
         periodoDeIngresso: "2023.1",
       },
       deleteCandidateId: null,
+      searchName: "", 
     };
   },
   methods: {
@@ -117,7 +125,16 @@ export default {
             throw new Error('Erro ao enviar os dados atualizados para o back-end.');
           }
           console.log('Dados atualizados com sucesso!');
-          this.loadData();
+          return response.json(); // Adiciona esta linha para obter os dados atualizados do back-end
+        })
+        .then(updatedData => {
+          const currentIndex = this.registers.findIndex(student => student.id === updatedData.id);
+
+          if (currentIndex !== -1) {
+            this.$set(this.registers, currentIndex, updatedData);
+          }
+        })
+        .then(() => {
           this.closeEditModal();
         })
         .catch(error => {
@@ -127,29 +144,31 @@ export default {
     confirmDelete(id) {
       this.deleteCandidateId = id;
       document.getElementById('confirmDeleteModal').classList.add('show');
-      document.getElementById('confirmDeleteModal').style.display = 'block';
+      document.body.classList.add('modal-open');
     },
     cancelDelete() {
+      this.deleteCandidateId = null;
       document.getElementById('confirmDeleteModal').classList.remove('show');
-      document.getElementById('confirmDeleteModal').style.display = 'none';
+      document.body.classList.remove('modal-open');
     },
     deleteConfirmed() {
-      const id = this.deleteCandidateId;
-      document.getElementById('confirmDeleteModal').classList.remove('show');
-      document.getElementById('confirmDeleteModal').style.display = 'none';
-
-      fetch(`https://localhost:7275/api/estudantes/${id}`, {
-        method: 'DELETE',
-      })
-        .then(response => {
-          if (!response.ok) {
-            throw new Error('Erro ao excluir o estudante do back-end.');
-          }
-          this.loadData();
-        })
-        .catch(error => {
-          console.error(error.message);
-        });
+      if (this.deleteCandidateId) {
+        console.log(`Excluir registro com ID: ${this.deleteCandidateId}`);
+        this.registers = this.registers.filter(register => register.id !== this.deleteCandidateId);
+        this.deleteCandidateId = null;
+        document.getElementById('confirmDeleteModal').classList.remove('show');
+        document.body.classList.remove('modal-open');
+      }
+    },
+    filterByName() {
+      if (!this.searchName) {
+        this.loadData();
+      } else {
+        const filteredRegisters = this.registers.filter(register =>
+          register.nome.toLowerCase().includes(this.searchName.toLowerCase())
+        );
+        this.registers = filteredRegisters;
+      }
     },
   },
   mounted() {
