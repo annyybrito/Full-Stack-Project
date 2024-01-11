@@ -52,6 +52,7 @@
 </template>
 
 <script>
+import axios from 'axios';
 export default {
   data() {
     return {
@@ -69,18 +70,12 @@ export default {
   },
   methods: {
     loadData() {
-      fetch("https://localhost:7275/api/estudantes")
+      axios.get("https://localhost:7275/api/estudantes")
         .then(response => {
-          if (!response.ok) {
-            throw new Error('Erro ao obter os dados do back-end.');
-          }
-          return response.json();
-        })
-        .then(data => {
-          this.registers = data;
+          this.registers = response.data;
         })
         .catch(error => {
-          console.error(error.message);
+          console.error('Erro ao obter os dados do back-end.', error.message);
         });
     },
     openEditModal(register) {
@@ -105,23 +100,14 @@ export default {
         periodoDeIngresso: this.editedRegister.periodoDeIngresso,
       };
 
-      fetch(`https://localhost:7275/api/estudantes/${this.editedRegister.id}`, {
-        method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(formData),
-      })
-        .then(response => {
-          if (!response.ok) {
-            throw new Error('Erro ao enviar os dados atualizados para o back-end.');
-          }
+      axios.put(`https://localhost:7275/api/estudantes/${this.editedRegister.id}`, formData)
+        .then(() => {
           console.log('Dados atualizados com sucesso!');
           this.loadData();
           this.closeEditModal();
         })
         .catch(error => {
-          console.error(error.message);
+          console.error('Erro ao enviar os dados atualizados para o back-end.', error.message);
         });
     },
     confirmDelete(id) {

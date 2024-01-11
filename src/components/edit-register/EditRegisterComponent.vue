@@ -32,6 +32,8 @@
 </template>
 
 <script>
+import axios from 'axios';
+
 export default {
   data() {
     return {
@@ -47,10 +49,9 @@ export default {
   },
   methods: {
     formatDate(date) {
-    const formattedDate = new Date(date).toISOString().split('T')[0];
-    return formattedDate;
-},
-
+      const formattedDate = new Date(date).toISOString().split('T')[0];
+      return formattedDate;
+    },
     updateRegister() {
       const formData = {
         id: this.editedRegister.id,
@@ -60,17 +61,8 @@ export default {
         periodoDeIngresso: this.editedRegister.periodoDeIngresso,
       };
 
-      fetch(`https://localhost:7275/api/estudantes/${this.editedRegister.id}`, {
-        method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(formData),
-      })
-        .then(response => {
-          if (!response.ok) {
-            throw new Error('Erro ao enviar os dados atualizados para o back-end.');
-          }
+      axios.put(`https://localhost:7275/api/estudantes/${this.editedRegister.id}`, formData)
+        .then(()=> {
           console.log('Dados atualizados com sucesso!');
           this.confirmacao = true;
           setTimeout(() => {
@@ -79,30 +71,25 @@ export default {
           this.$router.push({ name: 'list-registers' });
         })
         .catch(error => {
-          console.error(error.message);
+          console.error('Erro ao enviar os dados atualizados para o back-end.', error.message);
         });
     },
   },
   created() {
     const registerId = this.$route.params.id;
 
-    fetch(`https://localhost:7275/api/estudantes/${registerId}`)
+    axios.get(`https://localhost:7275/api/estudantes/${registerId}`)
       .then(response => {
-        if (!response.ok) {
-          throw new Error('Erro ao obter os dados do back-end.');
-        }
-        return response.json();
-      })
-      .then(data => {
-        this.editedRegister = data;
+        this.editedRegister = response.data;
         this.editedRegister.dataDeNascimento = this.formatDate(this.editedRegister.dataDeNascimento);
       })
       .catch(error => {
-        console.error(error.message);
+        console.error('Erro ao obter os dados do back-end.', error.message);
       });
   },
 };
 </script>
+
 
 <style scoped>
 .form-group {
