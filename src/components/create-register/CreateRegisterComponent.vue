@@ -50,67 +50,62 @@
 </template>
 
 <script>
+import { ref } from 'vue';
 import { useRouter } from 'vue-router';
+import axios from 'axios';
 
 export default {
   setup() {
     const router = useRouter();
+    const nome = ref("");
+    const dataDeNascimento = ref("");
+    const nomeDaMae = ref("");
+    const periodoDeIngresso = ref("2023.1");
 
     const redirectToRegisterList = () => {
       router.push({ name: 'list-registers' });
     };
 
-    return {
-      redirectToRegisterList,
-    };
-  },
-  data() {
-    return {
-      nome: "",
-      dataDeNascimento: "",
-      nomeDaMae: "",
-      periodoDeIngresso: "2023.1",
-    };
-  },
-  methods: {
-    formatDate(date) {
+    const formatDate = (date) => {
       const formattedDate = new Date(date).toISOString().split('T')[0];
       return formattedDate;
-    },
-    saveRegister() {
+    };
+
+    const saveRegister = async () => {
       const formData = {
-        nome: this.nome,
-        dataDeNascimento: this.formatDate(this.dataDeNascimento),
-        nomeDaMae: this.nomeDaMae,
-        periodoDeIngresso: this.periodoDeIngresso,
+        nome: nome.value,
+        dataDeNascimento: formatDate(dataDeNascimento.value),
+        nomeDaMae: nomeDaMae.value,
+        periodoDeIngresso: periodoDeIngresso.value,
       };
 
-      fetch("https://localhost:7275/api/estudantes", {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(formData),
-      })
-        .then(response => {
-          if (!response.ok) {
-            throw new Error(`Erro ao enviar os dados para o back-end. Status: ${response.status}`);
-          }
-          console.log('Dados enviados com sucesso!');
-          this.$emit('update-list');
-          this.clearForm();
-          this.redirectToRegisterList();
-        })
-        .catch(error => {
-          console.error(error.message);
-        });
-    },
-    clearForm() {
-      this.nome = "";
-      this.dataDeNascimento = "";
-      this.nomeDaMae = "";
-      this.periodoDeIngresso = "2023.1";
-    },
+      try {
+        await axios.post("https://localhost:7275/api/estudantes", formData);
+
+        console.log('Dados enviados com sucesso!');
+        clearForm();
+        redirectToRegisterList();
+      } catch (error) {
+        console.error(`Erro ao enviar os dados para o back-end. Status: ${error.response.status}`);
+      }
+    };
+
+    const clearForm = () => {
+      nome.value = "";
+      dataDeNascimento.value = "";
+      nomeDaMae.value = "";
+      periodoDeIngresso.value = "2023.1";
+    };
+
+    return {
+      nome,
+      dataDeNascimento,
+      nomeDaMae,
+      periodoDeIngresso,
+      redirectToRegisterList,
+      saveRegister,
+      clearForm,
+    };
   },
 };
 </script>
