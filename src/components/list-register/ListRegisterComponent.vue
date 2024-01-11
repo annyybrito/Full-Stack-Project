@@ -1,14 +1,12 @@
 <template>
   <div class="row justify-content-center">
-    <h3>Alunos Cadastrados</h3>
+  <h3 class="col-8 mt-3 align-self-start">Alunos Cadastrados</h3>
+  <div class="form-group col-4 mb-3 mt-2 align-self-start">
+    <label for="searchName" class="sr-only"></label>
+    <input type="text" v-model="searchName" @input="filterByName" class="form-control border-dark" id="searchName" placeholder="Pesquisar nome" />
+  </div>
 
-    <!-- Barra de Pesquisa -->
-    <div class="form-group">
-      <label for="searchName">Filtrar por Nome:</label>
-      <input type="text" v-model="searchName" @input="filterByName" class="form-control" id="searchName" />
-    </div>
-
-    <table class="table">
+    <table class="table col-12">
       <thead>
         <tr>
           <th>Nome</th>
@@ -125,7 +123,7 @@ export default {
             throw new Error('Erro ao enviar os dados atualizados para o back-end.');
           }
           console.log('Dados atualizados com sucesso!');
-          return response.json(); // Adiciona esta linha para obter os dados atualizados do back-end
+          return response.json(); 
         })
         .then(updatedData => {
           const currentIndex = this.registers.findIndex(student => student.id === updatedData.id);
