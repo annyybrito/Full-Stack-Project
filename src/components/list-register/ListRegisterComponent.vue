@@ -1,7 +1,15 @@
 <template>
   <div class="row justify-content-center">
-    <h3>Alunos Cadastrados</h3>
-    <table class="table">
+
+    <h3 class="col-8 mt-3 align-self-start">Alunos Cadastrados</h3>
+    <div class="form-group col-4 mb-3 mt-2 align-self-start">
+      <label for="searchName" class="sr-only"></label>
+      <input type="text" v-model="searchName" @input="filterByName" class="form-control border-dark" id="searchName"
+        placeholder="Pesquisar nome" />
+    </div>
+
+    <table class="table col-12">
+
       <thead>
         <tr>
           <th>Nome</th>
@@ -12,13 +20,14 @@
         </tr>
       </thead>
       <tbody>
-        <tr v-for="register in registers" :key="register.id">
+        <tr v-for="register in sortedRegisters" :key="register.id">
           <td>{{ register.nome }}</td>
           <td>{{ register.dataDeNascimento.split('T')[0] }}</td>
           <td>{{ register.nomeDaMae }}</td>
           <td>{{ register.periodoDeIngresso }}</td>
           <td>
-            <router-link :to="{ name: 'edit-register', params: { id: register.id } }" class="btn btn-primary" style="margin-right: 10px;">
+            <router-link :to="{ name: 'edit-register', params: { id: register.id } }" class="btn btn-primary"
+              style="margin-right: 10px;">
               <i class='bx bxs-edit'></i> Editar
             </router-link>
             <button @click="confirmDelete(register.id)" class="btn btn-danger" style="margin-right: 10px;">
@@ -30,7 +39,8 @@
     </table>
 
     <!-- Modal de confirmação -->
-    <div class="modal fade" id="confirmDeleteModal" tabindex="-1" role="dialog" aria-labelledby="confirmDeleteModalLabel" aria-hidden="true">
+    <div class="modal fade" id="confirmDeleteModal" tabindex="-1" role="dialog" aria-labelledby="confirmDeleteModalLabel"
+      aria-hidden="true">
       <div class="modal-dialog" role="document">
         <div class="modal-content">
           <div class="modal-header">
@@ -67,6 +77,8 @@ export default {
         periodoDeIngresso: "2023.1",
       },
       deleteCandidateId: null,
+      searchName: "",
+
     };
   },
   methods: {
@@ -101,16 +113,25 @@ export default {
         periodoDeIngresso: this.editedRegister.periodoDeIngresso,
       };
 
+      const originalIndex = this.registers.findIndex(reg => reg.id === this.editedRegister.id);
+
       estudantesAPI.update(this.editedRegister.id, formData)
         .then(() => {
           console.log('Dados atualizados com sucesso!');
           this.loadData();
           this.closeEditModal();
+
+          // Mover o registro editado para a primeira posição
+          if (originalIndex !== -1) {
+            this.registers.splice(originalIndex, 1);
+            this.registers.unshift(this.editedRegister);
+          }
         })
         .catch(error => {
           console.error('Erro ao enviar os dados atualizados para o back-end.', error.message);
         });
     },
+
     confirmDelete(id) {
       this.deleteCandidateId = id;
       document.getElementById('confirmDeleteModal').classList.add('show');
@@ -137,6 +158,14 @@ export default {
         .catch(error => {
           console.error('Erro ao excluir o estudante do back-end.', error.message);
         });
+    },
+  },
+  computed: {
+    sortedRegisters() {
+      return this.registers.slice().sort((a, b) => {
+        // Ordene pelo cadastro mais recente (data de cadastro decrescente)
+        return new Date(b.dataCadastro) - new Date(a.dataCadastro);
+      });
     },
   },
   mounted() {
