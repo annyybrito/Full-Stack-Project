@@ -32,7 +32,7 @@
 </template>
 
 <script>
-import axios from 'axios';
+import estudantesAPI from '../../requests/estudantes';
 
 export default {
   data() {
@@ -61,8 +61,8 @@ export default {
         periodoDeIngresso: this.editedRegister.periodoDeIngresso,
       };
 
-      axios.put(`https://localhost:7275/api/estudantes/${this.editedRegister.id}`, formData)
-        .then(()=> {
+      estudantesAPI.update(this.editedRegister.id, formData)
+        .then(() => {
           console.log('Dados atualizados com sucesso!');
           this.confirmacao = true;
           setTimeout(() => {
@@ -74,21 +74,25 @@ export default {
           console.error('Erro ao enviar os dados atualizados para o back-end.', error.message);
         });
     },
+    loadData() {
+      const registerId = this.$route.params.id;
+
+      estudantesAPI.getById(registerId)
+        .then(response => {
+          this.editedRegister = response.data;
+          this.editedRegister.dataDeNascimento = this.formatDate(this.editedRegister.dataDeNascimento);
+        })
+        .catch(error => {
+          console.error('Erro ao obter os dados do back-end.', error.message);
+        });
+    },
   },
   created() {
-    const registerId = this.$route.params.id;
-
-    axios.get(`https://localhost:7275/api/estudantes/${registerId}`)
-      .then(response => {
-        this.editedRegister = response.data;
-        this.editedRegister.dataDeNascimento = this.formatDate(this.editedRegister.dataDeNascimento);
-      })
-      .catch(error => {
-        console.error('Erro ao obter os dados do back-end.', error.message);
-      });
+    this.loadData();
   },
 };
 </script>
+
 
 
 <style scoped>

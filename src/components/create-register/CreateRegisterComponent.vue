@@ -52,7 +52,8 @@
 <script>
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
-import axios from 'axios';
+import estudantesAPI from '../../requests/estudantes';
+
 
 export default {
   setup() {
@@ -80,7 +81,7 @@ export default {
       };
 
       try {
-        await axios.post("https://localhost:7275/api/estudantes", formData);
+        await estudantesAPI.create(formData);
 
         console.log('Dados enviados com sucesso!');
         clearForm();

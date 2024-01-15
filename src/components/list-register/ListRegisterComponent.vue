@@ -52,7 +52,8 @@
 </template>
 
 <script>
-import axios from 'axios';
+import estudantesAPI from '../../requests/estudantes';
+
 export default {
   data() {
     return {
@@ -70,7 +71,7 @@ export default {
   },
   methods: {
     loadData() {
-      axios.get("https://localhost:7275/api/estudantes")
+      estudantesAPI.getAll()
         .then(response => {
           this.registers = response.data;
         })
@@ -100,7 +101,7 @@ export default {
         periodoDeIngresso: this.editedRegister.periodoDeIngresso,
       };
 
-      axios.put(`https://localhost:7275/api/estudantes/${this.editedRegister.id}`, formData)
+      estudantesAPI.update(this.editedRegister.id, formData)
         .then(() => {
           console.log('Dados atualizados com sucesso!');
           this.loadData();
@@ -128,17 +129,13 @@ export default {
       document.getElementById('confirmDeleteModal').classList.remove('show');
       document.getElementById('confirmDeleteModal').style.display = 'none';
 
-      fetch(`https://localhost:7275/api/estudantes/${id}`, {
-        method: 'DELETE',
-      })
-        .then(response => {
-          if (!response.ok) {
-            throw new Error('Erro ao excluir o estudante do back-end.');
-          }
+      estudantesAPI.delete(id)
+        .then(() => {
+          console.log('Estudante excluído com sucesso!');
           this.loadData();
         })
         .catch(error => {
-          console.error(error.message);
+          console.error('Erro ao excluir o estudante do back-end.', error.message);
         });
     },
   },
