@@ -2,7 +2,7 @@
   <div class="row justify-content-center">
 
     <h3 class="col-8 mt-3 align-self-start">Alunos Cadastrados</h3>
-    <div class="form-group col-4 mb-3 mt-2 align-self-start">
+    <div class="form-group col-3 mb-3 mt-2 align-self-start">
       <label for="searchName" class="sr-only"></label>
       <input type="text" v-model="searchName" @input="filterByName" class="form-control border-dark" id="searchName"
         placeholder="Pesquisar nome" />
