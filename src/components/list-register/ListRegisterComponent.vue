@@ -1,11 +1,16 @@
 <template>
   <div class="row justify-content-center">
-
     <h3 class="col-8 mt-3 align-self-start">Alunos Cadastrados</h3>
-    <div class="form-group col-4 mb-3 mt-2 align-self-start">
+    <div class="col-4 mb-3 mt-2 align-self-start text-right">
       <label for="searchName" class="sr-only"></label>
-      <input type="text" v-model="searchName" @input="filterByName" class="form-control border-dark" id="searchName"
-        placeholder="Pesquisar nome" />
+      <input
+        type="text"
+        v-model="searchName"
+        @input="filterByName"
+        class="form-control border-dark"
+        id="searchName"
+        placeholder="Pesquisar nome..."
+      />
     </div>
 
     <table class="table col-12">
@@ -26,12 +31,12 @@
           <td>{{ register.nomeDaMae }}</td>
           <td>{{ register.periodoDeIngresso }}</td>
           <td>
-             <router-link :to="{ name: 'edit-register', params: { id: register.id } }" class="btn btn-primary" style="margin-right: 10px;">
-    <i class='bx bxs-edit'></i> Editar
-  </router-link>
-  <button @click="confirmDelete(register.id)" class="btn btn-danger" style="margin-right: 10px;">
-    <i class='bx bxs-trash'></i> Excluir
-  </button>
+            <router-link :to="{ name: 'edit-register', params: { id: register.id } }" class="btn btn-primary" style="margin-right: 10px;">
+              <i class='bx bxs-edit'></i> Editar
+            </router-link>
+            <button @click="confirmDelete(register.id)" class="btn btn-danger" style="margin-right: 10px;">
+              <i class='bx bxs-trash'></i> Excluir
+            </button>
           </td>
         </tr>
       </tbody>
@@ -40,23 +45,9 @@
     <!-- Modal de confirmação -->
     <div class="modal fade" id="confirmDeleteModal" tabindex="-1" role="dialog" aria-labelledby="confirmDeleteModalLabel"
       aria-hidden="true">
-      <div class="modal-dialog" role="document">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title" id="confirmDeleteModalLabel">Confirmar Exclusão</h5>
-          </div>
-          <div class="modal-body">
-            Tem certeza que deseja excluir este cadastro?
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-dismiss="modal" @click="cancelDelete">Cancelar</button>
-            <button type="button" class="btn btn-danger" @click="deleteConfirmed">Excluir</button>
-          </div>
-        </div>
-      </div>
+      <!-- ... (código do modal existente) ... -->
     </div>
     <!-- Fim do modal de confirmação -->
-
   </div>
 </template>
 
@@ -77,7 +68,6 @@ export default {
       },
       deleteCandidateId: null,
       searchName: "",
-
     };
   },
   methods: {
@@ -157,6 +147,18 @@ export default {
         .catch(error => {
           console.error('Erro ao excluir o estudante do back-end.', error.message);
         });
+    },
+    filterByName() {
+      const searchTerm = this.searchName.toLowerCase().trim();
+      if (searchTerm === '') {
+        // Se o termo de pesquisa estiver vazio, mostrar todos os registros
+        this.loadData();
+      } else {
+        // Filtrar registros com base no nome contendo o termo de pesquisa
+        this.registers = this.registers.filter((register) =>
+          register.nome.toLowerCase().includes(searchTerm)
+        );
+      }
     },
   },
   computed: {
