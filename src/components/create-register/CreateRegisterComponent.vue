@@ -2,7 +2,7 @@
   <div class="container">
     <div class="card">
       <div class="card-header">
-        <h3>Cadastro de Alunos</h3>
+        <h3>Cadastro</h3>
       </div>
       <div class="card-body">
         <form @submit.prevent="saveRegister">
