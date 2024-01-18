@@ -3,18 +3,11 @@
     <h3 class="col-8 mt-3 align-self-start">Alunos Cadastrados</h3>
     <div class="col-4 mb-3 mt-2 align-self-start text-right">
       <label for="searchName" class="sr-only"></label>
-      <input
-        type="text"
-        v-model="searchName"
-        @input="filterByName"
-        class="form-control border-dark"
-        id="searchName"
-        placeholder="Pesquisar nome..."
-      />
+      <input type="text" v-model="searchName" @input="filterByName" class="form-control border-dark" id="searchName"
+        placeholder="Pesquisar Nome" />
     </div>
 
     <table class="table col-12">
-
       <thead>
         <tr>
           <th>Nome</th>
@@ -31,7 +24,8 @@
           <td>{{ register.nomeDaMae }}</td>
           <td>{{ register.periodoDeIngresso }}</td>
           <td>
-            <router-link :to="{ name: 'edit-register', params: { id: register.id } }" class="btn btn-primary" style="margin-right: 10px;">
+            <router-link :to="{ name: 'edit-register', params: { id: register.id } }" class="btn btn-primary"
+              style="margin-right: 10px;">
               <i class='bx bxs-edit'></i> Editar
             </router-link>
             <button @click="confirmDelete(register.id)" class="btn btn-danger" style="margin-right: 10px;">
@@ -42,12 +36,12 @@
       </tbody>
     </table>
 
-    <!-- Modal de confirmação -->
+
     <div class="modal fade" id="confirmDeleteModal" tabindex="-1" role="dialog" aria-labelledby="confirmDeleteModalLabel"
       aria-hidden="true">
-      <!-- ... (código do modal existente) ... -->
+
     </div>
-    <!-- Fim do modal de confirmação -->
+
   </div>
 </template>
 
@@ -110,7 +104,7 @@ export default {
           this.loadData();
           this.closeEditModal();
 
-          // Mover o registro editado para a primeira posição
+
           if (originalIndex !== -1) {
             this.registers.splice(originalIndex, 1);
             this.registers.unshift(this.editedRegister);
@@ -127,10 +121,6 @@ export default {
       document.getElementById('confirmDeleteModal').style.display = 'block';
     },
     cancelDelete() {
-      // Lógica para cancelar a exclusão aqui, se necessário.
-      // Por exemplo, limpar a variável deleteCandidateId.
-
-      // Fechar o modal
       document.getElementById('confirmDeleteModal').classList.remove('show');
       document.getElementById('confirmDeleteModal').style.display = 'none';
     },
@@ -151,24 +141,17 @@ export default {
     filterByName() {
       const searchTerm = this.searchName.toLowerCase().trim();
       if (searchTerm === '') {
-        // Se o termo de pesquisa estiver vazio, mostrar todos os registros
+
         this.loadData();
       } else {
-        // Filtrar registros com base no nome contendo o termo de pesquisa
+
         this.registers = this.registers.filter((register) =>
           register.nome.toLowerCase().includes(searchTerm)
         );
       }
     },
   },
-  computed: {
-    sortedRegisters() {
-      return this.registers.slice().sort((a, b) => {
-        // Ordene pelo cadastro mais recente (data de cadastro decrescente)
-        return new Date(b.dataCadastro) - new Date(a.dataCadastro);
-      });
-    },
-  },
+
   mounted() {
     this.loadData();
   },

@@ -1,4 +1,4 @@
-// estudantesAPI.js
+
 import axiosInstance from './api';
 
 const estudantesAPI = {
