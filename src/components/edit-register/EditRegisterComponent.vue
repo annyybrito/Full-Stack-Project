@@ -20,8 +20,8 @@
       </select>
 
       <div class="button-group">
-        <button class="btn btn-save" type="submit">Salvar</button>
-        <router-link class="btn btn-cancel" :to="{ name: 'list-registers' }">Cancelar</router-link>
+        <button class="btn btn-primary" type="submit">Salvar</button>
+        <router-link class="btn btn-secondary" :to="{ name: 'list-registers' }">Cancelar</router-link>
       </div>
     </form>
 
@@ -144,7 +144,9 @@ button.btn-save {
   color: #fff;
   border: none;
 }
-
+.button-group button {
+  margin-right: 10px; 
+}
 .alert-success {
   margin-top: 10px;
   padding: 10px;

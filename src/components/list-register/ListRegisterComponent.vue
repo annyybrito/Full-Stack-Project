@@ -26,13 +26,12 @@
           <td>{{ register.nomeDaMae }}</td>
           <td>{{ register.periodoDeIngresso }}</td>
           <td>
-            <router-link :to="{ name: 'edit-register', params: { id: register.id } }" class="btn btn-primary"
-              style="margin-right: 10px;">
-              <i class='bx bxs-edit'></i> Editar
-            </router-link>
-            <button @click="confirmDelete(register.id)" class="btn btn-danger" style="margin-right: 10px;">
-              <i class='bx bxs-trash'></i> Excluir
-            </button>
+             <router-link :to="{ name: 'edit-register', params: { id: register.id } }" class="btn btn-primary" style="margin-right: 10px;">
+    <i class='bx bxs-edit'></i> Editar
+  </router-link>
+  <button @click="confirmDelete(register.id)" class="btn btn-danger" style="margin-right: 10px;">
+    <i class='bx bxs-trash'></i> Excluir
+  </button>
           </td>
         </tr>
       </tbody>
