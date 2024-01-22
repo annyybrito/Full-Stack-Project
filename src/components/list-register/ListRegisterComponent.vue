@@ -146,8 +146,8 @@ export default {
         this.loadData();
       } else {
 
-        this.registers = this.registers.filter((register) =>
-          register.nome.toLowerCase().includes(searchTerm)
+        this.sortedRegisters = this.sortedRegisters.filter((sortedRegisters) =>
+          sortedRegisters.nome.toLowerCase().includes(searchTerm)
         );
       }
     },
