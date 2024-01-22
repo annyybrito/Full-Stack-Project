@@ -62,13 +62,14 @@ export default {
       },
       deleteCandidateId: null,
       searchName: "",
+      sortedRegisters: [],
     };
   },
   methods: {
     loadData() {
       estudantesAPI.getAll()
         .then(response => {
-          this.registers = response.data;
+          this.sortedRegisters = response.data;
         })
         .catch(error => {
           console.error('Erro ao obter os dados do back-end.', error.message);
