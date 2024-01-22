@@ -2,22 +2,30 @@
   <div>
     <h3>Editar Aluno</h3>
     <form @submit.prevent="updateRegister">
-      <label for="edit-nome">Nome:</label>
-      <input v-model="editedRegister.nome" id="edit-nome" type="text" required />
+      <div class="form-group">
+        <label for="edit-nome">Nome:</label>
+        <input v-model="editedRegister.nome" id="edit-nome" type="text" required />
+      </div>
 
-      <label for="edit-dataDeNascimento">Data de Nascimento:</label>
-      <input v-model="editedRegister.dataDeNascimento" id="edit-dataDeNascimento" type="date" required />
+      <div class="form-group">
+        <label for="edit-dataDeNascimento">Data de Nascimento:</label>
+        <input v-model="editedRegister.dataDeNascimento" id="edit-dataDeNascimento" type="date" required />
+      </div>
 
-      <label for="edit-nomeDaMae">Nome da Mãe:</label>
-      <input v-model="editedRegister.nomeDaMae" id="edit-nomeDaMae" type="text" required />
+      <div class="form-group">
+        <label for="edit-nomeDaMae">Nome da Mãe:</label>
+        <input v-model="editedRegister.nomeDaMae" id="edit-nomeDaMae" type="text" required />
+      </div>
 
-      <label for="edit-periodoDeIngresso">Período de Ingresso:</label>
-      <select v-model="editedRegister.periodoDeIngresso" id="edit-periodoDeIngresso" name="edit-periodoDeIngresso">
-        <option value="2023.1">2023.1</option>
-        <option value="2023.2">2023.2</option>
-        <option value="2024.1">2024.1</option>
-        <option value="2024.2">2024.2</option>
-      </select>
+      <div class="form-group">
+        <label for="edit-periodoDeIngresso">Período de Ingresso:</label>
+        <select v-model="editedRegister.periodoDeIngresso" id="edit-periodoDeIngresso" name="edit-periodoDeIngresso">
+          <option value="2023.1">2023.1</option>
+          <option value="2023.2">2023.2</option>
+          <option value="2024.1">2024.1</option>
+          <option value="2024.2">2024.2</option>
+        </select>
+      </div>
 
       <div class="button-group">
         <button class="btn btn-primary" type="submit">Salvar</button>
@@ -93,8 +101,6 @@ export default {
 };
 </script>
 
-
-
 <style scoped>
 .form-group {
   margin-bottom: 15px;
@@ -112,20 +118,6 @@ select {
   padding: 8px;
   box-sizing: border-box;
   margin-bottom: 10px;
-}
-
-#m-nome,
-#m-dataDeNascimento,
-#m-nomeDaMae,
-#periodoDeIngresso {
-  @apply form-control;
-}
-
-#edit-nome,
-#edit-dataDeNascimento,
-#edit-nomeDaMae,
-#edit-periodoDeIngresso {
-  @apply form-control;
 }
 
 .button-group {

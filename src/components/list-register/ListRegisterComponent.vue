@@ -36,10 +36,24 @@
       </tbody>
     </table>
 
-
-    <div class="modal fade" id="confirmDeleteModal" tabindex="-1" role="dialog" aria-labelledby="confirmDeleteModalLabel"
-      aria-hidden="true">
-
+    <div class="modal" id="confirmDeleteModal" tabindex="-1" role="dialog">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Confirmar Exclusão</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close" @click="cancelDelete">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            Tem certeza que deseja excluir este cadastro?
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal" @click="cancelDelete">Cancelar</button>
+            <button type="button" class="btn btn-danger" @click="deleteConfirmed">Excluir</button>
+          </div>
+        </div>
+      </div>
     </div>
 
   </div>
@@ -105,7 +119,6 @@ export default {
           this.loadData();
           this.closeEditModal();
 
-
           if (originalIndex !== -1) {
             this.registers.splice(originalIndex, 1);
             this.registers.unshift(this.editedRegister);
@@ -142,10 +155,8 @@ export default {
     filterByName() {
       const searchTerm = this.searchName.toLowerCase().trim();
       if (searchTerm === '') {
-
         this.loadData();
       } else {
-
         this.sortedRegisters = this.sortedRegisters.filter((sortedRegisters) =>
           sortedRegisters.nome.toLowerCase().includes(searchTerm)
         );
